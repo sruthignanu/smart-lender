@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Lender - Home</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 800px;
+            width: 100%;
+            padding: 50px;
+            text-align: center;
+        }
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 10px;
+        }
+        h1 {
+            font-size: 2.8rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        h1 span {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            color: #666;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        .description {
+            color: #555;
+            line-height: 1.8;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin: 30px 0;
+        }
+        .feature-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .feature-box .icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        .feature-box h4 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .feature-box p {
+            color: #777;
+            font-size: 0.9rem;
+        }
+        .btn {
+            display: inline-block;
+            padding: 15px 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        .footer {
+            margin-top: 30px;
+            color: #999;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 600px) {
+            .features {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 30px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">💰</div>
+        <h1><span>Smart Lender</span></h1>
+        <p class="subtitle">AI-Powered Loan Approval Prediction</p>
+        
+        <div class="description">
+            <p><strong>Smart Lender</strong> is a machine learning-powered web application designed to predict 
+            the creditworthiness of loan applicants. The platform leverages the <strong>XGBoost</strong> 
+            algorithm to evaluate applicant data and determine the likelihood of loan repayment or default.</p>
+        </div>
+        
+        <div class="features">
+            <div class="feature-box">
+                <div class="icon">⚡</div>
+                <h4>Fast</h4>
+                <p>Instant predictions in seconds</p>
+            </div>
+            <div class="feature-box">
+                <div class="icon">🎯</div>
+                <h4>Accurate</h4>
+                <p>80.5% prediction accuracy</p>
+            </div>
+            <div class="feature-box">
+                <div class="icon">🛡️</div>
+                <h4>Reliable</h4>
+                <p>Data-driven decisions</p>
+            </div>
+        </div>
+        
+        <a href="/predict" class="btn">🔮 Predict Loan Approval</a>
+        
+        <div class="footer">
+            <p>Smart Lender v1.0 | Built with Flask &amp; XGBoost</p>
+        </div>
+    </div>
+</body>
+</html>

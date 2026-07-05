@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Lender - Predict</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 900px;
+            width: 100%;
+            padding: 40px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            font-size: 2rem;
+            color: #333;
+        }
+        .header h1 span {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header p {
+            color: #666;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        .btn-container {
+            grid-column: 1 / -1;
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .btn {
+            flex: 1;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            text-align: center;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        .btn-secondary {
+            background: #e9ecef;
+            color: #555;
+        }
+        .btn-secondary:hover {
+            background: #dee2e6;
+        }
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: none;
+        }
+        .error-message.show {
+            display: block;
+        }
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .btn-container {
+                flex-direction: column;
+            }
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💰 <span>Smart Lender</span></h1>
+            <p>Enter applicant details for loan approval prediction</p>
+        </div>
+        
+        <form method="POST" action="/submit">
+            <div class="form-grid">
+                <!-- Personal Information -->
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select name="gender" required>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Married</label>
+                    <select name="married" required>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Dependents</label>
+                    <select name="dependents" required>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3+">3+</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Education</label>
+                    <select name="education" required>
+                        <option value="Graduate">Graduate</option>
+                        <option value="Not Graduate">Not Graduate</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Self Employed</label>
+                    <select name="self_employed" required>
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Applicant Income</label>
+                    <input type="number" name="applicant_income" value="5000" min="0" step="100" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Co-applicant Income</label>
+                    <input type="number" name="coapplicant_income" value="0" min="0" step="100" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Loan Amount</label>
+                    <input type="number" name="loan_amount" value="10000" min="0" step="1000" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Loan Term (months)</label>
+                    <select name="loan_term" required>
+                        <option value="30">30 months</option>
+                        <option value="60">60 months</option>
+                        <option value="120">120 months</option>
+                        <option value="180">180 months</option>
+                        <option value="240">240 months</option>
+                        <option value="360" selected>360 months</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Credit History</label>
+                    <select name="credit_history" required>
+                        <option value="1.0">Good (1.0)</option>
+                        <option value="0.0">Bad (0.0)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group full-width">
+                    <label>Property Area</label>
+                    <select name="property_area" required>
+                        <option value="Urban">Urban</option>
+                        <option value="Semiurban">Semiurban</option>
+                        <option value="Rural">Rural</option>
+                    </select>
+                </div>
+                
+                <div class="btn-container">
+                    <a href="/" class="btn btn-secondary">← Back to Home</a>
+                    <button type="submit" class="btn btn-primary">🔮 Predict</button>
+                </div>
+            </div>
+        </form>
+        
+        <div id="errorMessage" class="error-message {% if error %}show{% endif %}">
+            <i class="fas fa-exclamation-circle"></i> {{ error }}
+        </div>
+    </div>
+</body>
+</html>

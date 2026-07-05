@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Lender - Result</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 700px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+        }
+        .header {
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            font-size: 2rem;
+            color: #333;
+        }
+        .header h1 span {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .result-status {
+            font-size: 2.5rem;
+            font-weight: 700;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        .result-status.approved {
+            background: #d4edda;
+            color: #155724;
+        }
+        .result-status.rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .result-status .icon {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .result-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        .result-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .result-item label {
+            color: #888;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: block;
+        }
+        .result-item .value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #333;
+            margin-top: 5px;
+        }
+        .result-item .value.approved-text {
+            color: #28a745;
+        }
+        .result-item .value.rejected-text {
+            color: #dc3545;
+        }
+        .risk-low {
+            color: #28a745;
+        }
+        .risk-medium {
+            color: #ffc107;
+        }
+        .risk-high {
+            color: #dc3545;
+        }
+        .recommendation {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .btn-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        .btn-secondary {
+            background: #e9ecef;
+            color: #555;
+        }
+        .btn-secondary:hover {
+            background: #dee2e6;
+        }
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: none;
+        }
+        .error-message.show {
+            display: block;
+        }
+        .footer {
+            margin-top: 30px;
+            color: #999;
+            font-size: 0.8rem;
+        }
+        @media (max-width: 600px) {
+            .result-details {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 20px;
+            }
+            .btn-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💰 <span>Smart Lender</span></h1>
+            <p>Loan Approval Prediction Result</p>
+        </div>
+        
+        {% if error %}
+        <div class="error-message show">
+            <strong>❌ Error:</strong> {{ error }}
+        </div>
+        {% else %}
+        
+        <div class="result-status {% if prediction == 'Y' %}approved{% else %}rejected{% endif %}">
+            <span class="icon">{% if prediction == 'Y' %}✅{% else %}❌{% endif %}</span>
+            {% if prediction == 'Y' %}
+                APPROVED
+            {% else %}
+                NOT APPROVED
+            {% endif %}
+        </div>
+        
+        <div class="result-details">
+            <div class="result-item">
+                <label>Confidence</label>
+                <div class="value {% if prediction == 'Y' %}approved-text{% else %}rejected-text{% endif %}">
+                    {{ confidence }}%
+                </div>
+            </div>
+            <div class="result-item">
+                <label>Risk Level</label>
+                <div class="value risk-{{ risk_level|lower }}">
+                    {{ risk_level }}
+                </div>
+            </div>
+            <div class="result-item">
+                <label>Model Used</label>
+                <div class="value" style="font-size: 1rem;">XGBoost</div>
+            </div>
+        </div>
+        
+        <div class="recommendation">
+            <strong>💡 Recommendation:</strong>
+            {% if prediction == 'Y' %}
+                <span style="color: #28a745;">Fast-track approval recommended for this applicant.</span>
+            {% else %}
+                <span style="color: #dc3545;">Further verification and documentation required.</span>
+            {% endif %}
+        </div>
+        
+        <div style="text-align: left; background: #f8f9fa; padding: 15px; border-radius: 10px; margin-top: 15px;">
+            <p style="font-size: 0.9rem; color: #666;"><strong>📊 Prediction Details:</strong></p>
+            <p style="font-size: 0.9rem; color: #666;">Probability Approved: <strong style="color: #28a745;">{{ probability_approved }}%</strong></p>
+            <p style="font-size: 0.9rem; color: #666;">Probability Rejected: <strong style="color: #dc3545;">{{ probability_rejected }}%</strong></p>
+        </div>
+        
+        {% endif %}
+        
+        <div class="btn-container">
+            <a href="/predict" class="btn btn-primary">🔄 New Prediction</a>
+            <a href="/" class="btn btn-secondary">🏠 Home</a>
+        </div>
+        
+        <div class="footer">
+            <p>Smart Lender v1.0 | Built with Flask &amp; XGBoost</p>
+        </div>
+    </div>
+</body>
+</html>
