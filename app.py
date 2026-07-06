@@ -17,6 +17,11 @@ app = Flask(__name__)
 
 # Load the saved model and artifacts
 try:
+    # FIX: Remove problematic XGBoost attribute if it exists
+    import xgboost as xgb
+    if hasattr(xgb.XGBClassifier, 'use_label_encoder'):
+        del xgb.XGBClassifier.use_label_encoder
+        
     # Load the saved model (using the name from the description: rdf.pkl or your model)
     model = joblib.load('models/xgboost_model.pkl')
     scaler = joblib.load('models/scaler.pkl')
